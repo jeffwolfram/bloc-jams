@@ -1,12 +1,16 @@
-var collectionArray = [albumPicasso, albumMarconi]; 
+
+    
+
+var collectionArray = [albumPicasso, albumMarconi, albumLumineers]; 
 var collectionItemTemplate =
+    
      '<div class="collection-album-container column fourth">'
    + '  <img src="assets/images/album_covers/01.png"/>'
    + '  <div class="collection-album-info caption">'
    + '    <p>'
-   + '      <a class="album-name" href="/album.html"> ' + albumPicasso.title + ' </a>'
+   + '      <a class="album-name" href="/album.html"> ' + collectionArray[0].title + ' </a>'
    + '   <br/>'
-   + '   <a href="/album.html"> Pablo Picasso </a>'
+   + '   <a href="/album.html"> ' + collectionArray[0].artist + '   </a>'
    + '   <br/>'
    + '    X songs'
    + '    <br/>'
@@ -14,6 +18,8 @@ var collectionItemTemplate =
    + ' </div>'
    + '</div>'
  ;
+    
+  
  window.onload = function() {
      var collectionContainer = document.getElementsByClassName('album-covers')[0];
      collectionContainer.innerHTML = '';
