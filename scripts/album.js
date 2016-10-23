@@ -57,6 +57,7 @@ var albumPicasso = {
  };
 //#1
 var setCurrentAlbum = function(album) {
+    //debugger;
     var albumTitle = document.getElementsByClassName('album-view-title')[0];
     var albumArtist = document.getElementsByClassName('album-view-artist')[0];
     var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
@@ -79,6 +80,60 @@ var setCurrentAlbum = function(album) {
          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
      }
  };
+
+
+
+
  window.onload = function() {
-     setCurrentAlbum(albumPicasso);
+     //var seletedAlbum = document.get
+     //switch()
+     //debugger;
+     
+var albumType = (getUrlVars()["album"]);
+     
+if(albumType!=undefined) {
+    albumType = albumType.replace('%20',' ');
+}    
+     
+   toLoadAlbum(albumType);  
  };
+
+function toLoadAlbum(albumType){
+    //debugger;
+     switch(albumType){
+        case 'The Colors' : 
+        setCurrentAlbum(albumPicasso);
+        break;   
+             
+        case 'The Telephone' : 
+        setCurrentAlbum(albumMarconi);
+        break;  
+        
+        case 'Cleopatra' : 
+        setCurrentAlbum(albumLumineers);
+        break;       
+             
+     }
+}
+
+ function navigateNext(calledDom){
+     //debugger;
+     
+     console.log(calledDom);
+     
+     var selecteAlbum = calledDom.getElementsByClassName("album-view-title")[0];
+     var albumTitle = selecteAlbum.innerText;
+     
+         if(albumTitle=='The Colors'){
+             toLoadAlbum("The Telephone");
+         }
+         else if (albumTitle=='The Telephone' ){
+             toLoadAlbum("Cleopatra");
+         }
+         
+         else if (albumTitle=='Cleopatra' ){
+             toLoadAlbum("The Colors");
+         }
+     
+    
+ }
