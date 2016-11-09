@@ -1,35 +1,23 @@
     
 
 var collectionArray = [albumPicasso, albumMarconi, albumLumineers]; 
- var collectionItemTemplate=[];
-//var collectionItemTemplate =
-//    
-//     '<div class="collection-album-container column fourth">'
-//   + '  <img src="assets/images/album_covers/01.png"/>'
-//   + '  <div class="collection-album-info caption">'
-//   + '    <p>'
-//   + '      <a class="album-name" href="/album.html"> ' + collectionArray[0].title + ' </a>'
-//   + '   <br/>'
-//   + '   <a href="/album.html"> ' + collectionArray[0].artist + '   </a>'
-//   + '   <br/>'
-//   + '    X songs'
-//   + '    <br/>'
-//   + '   </p>'
-//   + ' </div>'
-//   + '</div>'
-// ;
+var buildCollectionItemTemplate = function(){
+
+return $(template);    
     
+};
   
- window.onload = function() {
-     var collectionContainer = document.getElementsByClassName('album-covers')[0];
-     collectionContainer.innerHTML = '';
+ $(window).load(function() {
+     var $collectionContainer = $('.album-covers');
+     $collectionContainer.empty();
     
    // debugger;
      
      for(var i = 0; i < collectionArray.length; i++){
-         //collectionContainer.innerHTML += collectionItemTemplate;
+     
          
-     collectionItemTemplate[i] =
+     var $newThumbnail = buildCollectionItemTemplate();
+         $collectionContainer.append($newThumnail);
     
      '<div class="collection-album-container column fourth">'
    + '  <img   src="assets/images/album_covers/01.png"/>'
@@ -50,4 +38,4 @@ var collectionArray = [albumPicasso, albumMarconi, albumLumineers];
      }
   
      
- }
+ });
