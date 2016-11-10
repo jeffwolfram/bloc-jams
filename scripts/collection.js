@@ -3,7 +3,7 @@
 var collectionArray = [albumPicasso, albumMarconi, albumLumineers]; 
 var buildCollectionItemTemplate = function(){
 
-return $(template);    
+return $(newThumbnail);    
     
 };
   
