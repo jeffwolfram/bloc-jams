@@ -12,28 +12,31 @@
      var $row = $(template);
      
      var clickHandler = function() {
-         var songNumber = parseInt($(this).attr('data-song-number'));
+         var songNumber = $(this).attr('data-song-number');
 
-        if (currentlyPlayingSongNumber !== null) {
+        if (parseInt(currentlyPlayingSongNumber) !== null) {
             console.log("this is a not equal to null");
             // Revert to song number for currently playing song because user started playing new song.
             var currentlyPlayingCell = parseInt($('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]'));
             $(currentlyPlayingCell).html(currentlyPlayingSongNumber);
+          
         }
-        if (currentlyPlayingSongNumber !== songNumber) {
+        if (parseInt(currentlyPlayingSongNumber) !== parseInt(songNumber)) {
             console.log("not currently playing song");
             // Switch from Play -> Pause button to indicate new song is playing.
             $(this).html(pauseButtonTemplate);
             currentlyPlayingSongNumber = songNumber;
             currentSongFromAlbum = currentAlbum.songs[songNumber -1];
             updatePlayerBarSong();
-        } else if (currentlyPlayingSongNumber === songNumber) {
+        } else if (parseInt(currentlyPlayingSongNumber) === parseInt(songNumber)) {
             console.log("Currently playing song number is equal to songnumber");
             // Switch from Pause -> Play button to pause currently playing song.
             $(this).html(playButtonTemplate);
             $('.main-controls .play-pause').html(playerBarPlayButton);
             currentlyPlayingSongNumber = null;
             currentSongFromAlbum = null;
+            updatePlayerBarSong();
+            
 
         }
 
@@ -42,31 +45,26 @@
 
  
       
-    var onHover = function(event) {
-        var songNumberCell = parseInt($(this).find('.song-item-number'));
-        var songNumber = parseInt($(songNumberCell).attr('.data-song-number'));
+   var onHover = function(event){
+    var $songNumberCell = $(this).find('.song-item-number'); //get the element first, THEN get the attr that will have the number and parseInt that
+    if(parseInt($songNumberCell.attr('data-song-number')) !== parseInt(currentlyPlayingSongNumber)){
+      $songNumberCell.html(playButtonTemplate);//here, it's still an element. we need it to call the html method and render the button
+    }
+  };
 
-        if (songNumber !== currentlyPlayingSongNumber) {
-            parseInt($(songNumberCell).html(playButtonTemplate));
-        }
-
-    };
-
-    var offHover = function(event) {
-        var songNumberCell = parseInt($(this).find('.song-item-number'));
-        var songNumber = parseInt($(songNumberCell).attr('.data-song-number'));
+    var offHover = function(event){
+    var $songNumberCell = $(this).find('.song-item-number'); //get the element first, THEN get the attr that will have the number and parseInt that
         console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
-
-        if (songNumber !== currentlyPlayingSongNumber) {
-            parseInt($(songNumberCell).html(songNumber));
-        }
-    };
+    if(parseInt($songNumberCell.attr('data-song-number')) !== parseInt(currentlyPlayingSongNumber)){
+      $songNumberCell.html(songNumber);//here, it's still an element. we need it to call the html method and render the button
+    }
+  };
 
     $row.find('.song-item-number').click(clickHandler);
     $row.hover(onHover, offHover);
     return $row;
      
- };
+ }; //end of create row function ........................................
 
  var setCurrentAlbum = function(album) {
      currentAlbum = album;
@@ -88,7 +86,8 @@
          var $newRow = createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
          $albumSongList.append($newRow);
      }
- };
+ }; //end of setCurrentAlbum function...............................
+
 var trackIndex = function(album, song){
     return album.songs.indexOf(song);
 };

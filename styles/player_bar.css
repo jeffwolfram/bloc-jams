@@ -132,6 +132,7 @@
 .player-bar .main-controls .play-pause{
     margin-right: 15%;
     font-size: 1.6rem;
+       
     
 }
 
@@ -151,9 +152,11 @@
     vertical-align: middle;
 }
 /****************************************fix player buttons spacing**********************/
+/*
 .ion-play:before {
     padding-left:22%;
 }
+*/
 
 
 
