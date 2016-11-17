@@ -2,6 +2,9 @@ var setSong = function(songNumber) {
     currentlyPlayingSongNumber = parseInt(songNumber);
     currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 };
+var getSongNumberCell = function(number) {
+  return  $('.song-item-number[data-song-number="' + number + '"]');
+};
 
  var createSongRow = function(songNumber, songName, songLength) {
      var template =
@@ -20,7 +23,7 @@ var setSong = function(songNumber) {
         if (parseInt(currentlyPlayingSongNumber) !== null) {
             console.log("this is a not equal to null");
             // Revert to song number for currently playing song because user started playing new song.
-            var currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
+            var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber); 
             $(currentlyPlayingCell).html(currentlyPlayingSongNumber);
           
         }
@@ -139,7 +142,7 @@ var previousSong = function() {
             currentSongIndex = currentAlbum.songs.length -1;
      }
     //set new song 
-    currentlyPlayingSongNumber = currentSongIndex + 1;
+    setSong(currentSongIndex + 1);
     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
     
     //update Player
