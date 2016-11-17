@@ -1,4 +1,7 @@
-
+var setSong = function(songNumber) {
+    currentlyPlayingSongNumber = parseInt(songNumber);
+    currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+};
 
  var createSongRow = function(songNumber, songName, songLength) {
      var template =
@@ -12,12 +15,12 @@
      var $row = $(template);
      
      var clickHandler = function() {
-         var songNumber = $(this).attr('data-song-number');
+         var songNumber = parseInt($(this).attr('data-song-number'));
 
         if (parseInt(currentlyPlayingSongNumber) !== null) {
             console.log("this is a not equal to null");
             // Revert to song number for currently playing song because user started playing new song.
-            var currentlyPlayingCell = parseInt($('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]'));
+            var currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
             $(currentlyPlayingCell).html(currentlyPlayingSongNumber);
           
         }
@@ -25,17 +28,16 @@
             console.log("not currently playing song");
             // Switch from Play -> Pause button to indicate new song is playing.
             $(this).html(pauseButtonTemplate);
-            currentlyPlayingSongNumber = songNumber;
-            currentSongFromAlbum = currentAlbum.songs[songNumber -1];
+            setSong(songNumber);
             updatePlayerBarSong();
         } else if (parseInt(currentlyPlayingSongNumber) === parseInt(songNumber)) {
             console.log("Currently playing song number is equal to songnumber");
             // Switch from Pause -> Play button to pause currently playing song.
             $(this).html(playButtonTemplate);
             $('.main-controls .play-pause').html(playerBarPlayButton);
-            currentlyPlayingSongNumber = null;
-            currentSongFromAlbum = null;
-            updatePlayerBarSong();
+            setSong(null);
+            
+            
             
 
         }
@@ -108,7 +110,7 @@ var nextSong = function() {
     }
     
     // Set a new current song
-    currentlyPlayingSongNumber = currentSongIndex + 1;
+    setSong(currentSongIndex + 1);
     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
 
     // Update the Player Bar information
