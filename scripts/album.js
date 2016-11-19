@@ -182,14 +182,14 @@ var togglePlayFromPlayerBar = function() {
                 currentSoundFile.play();
                 $(this).html(pauseButtonTemplate);
                 $('.main-controls .play-pause').html(playerBarPauseButton);
-                 (currentlyPlayingSongNumber).html(playerBarPauseButton);
+                 
                 
                 
             } else{
                 currentSoundFile.pause();
                 $(this).html(playButtonTemplate);
                 $('.main-controls .play-pause').html(playerBarPlayButton);
-                $(currentlyPlayingSongNumber).html(playerBarPlayButton);
+               
                 
                     }
     
