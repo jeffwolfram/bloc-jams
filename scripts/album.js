@@ -13,18 +13,19 @@ var setSong = function(songNumber) {
 var seek = function(time) {
     if (currentSoundFile) {
         currentSoundFile.setTime(time);
-        console.log(time);
-    }
+        
+    };
 };
 var setVolume = function(volume) {
     if(currentSoundFile){
         currentSoundFile.setVolume(volume);
-        console.log(volume);
-    }
+        
+    };
 };
 var getSongNumberCell = function(number) {
   return  $('.song-item-number[data-song-number="' + number + '"]');
 };
+
 
  var createSongRow = function(songNumber, songName, songLength) {
      var template =
@@ -42,16 +43,21 @@ var getSongNumberCell = function(number) {
 
         if (parseInt(currentlyPlayingSongNumber) !== null) {
             // Revert to song number for currently playing song because user started playing new song.
-            var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);         $(currentlyPlayingCell).html(currentlyPlayingSongNumber);
+            var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);         currentlyPlayingCell.html(currentlyPlayingSongNumber);
         }
         if (parseInt(currentlyPlayingSongNumber) !== parseInt(songNumber)) {
-            console.log("not currently playing song");
             // Switch from Play -> Pause button to indicate new song is playing.
             $(this).html(pauseButtonTemplate);
             setSong(songNumber);
             //Play  song
             currentSoundFile.play();
             updateSeekBarWhileSongPlays();
+            currentSongFromAlbum = currentAlbum.songs[songNumber - 1]; 
+            var $volumeFill = $('.volume .fill');
+            var $volumeThumb = $('.volume .thumb');
+            $volumeFill.width(currentVolume + '%');
+            $volumeThumb.css({left: currentVolume + '%'});
+            
             updatePlayerBarSong();
             
         } else if (parseInt(currentlyPlayingSongNumber) === parseInt(songNumber)) {
@@ -61,12 +67,13 @@ var getSongNumberCell = function(number) {
                 currentSoundFile.play();
                 updateSeekBarWhileSongPlays();
                 $(this).html(pauseButtonTemplate);
-                $($playerBarButton).html(playerBarPauseButton);
+                $playerBarButton.html(playerBarPauseButton);
+                
                 
             } else{
                 currentSoundFile.pause();
                 $(this).html(playButtonTemplate);
-                $($playerBarButton).html(playerBarPlayButton);
+                $playerBarButton.html(playerBarPlayButton);
                     }
             
             
@@ -244,17 +251,19 @@ updatePlayerBarSong();
 };//end of function previousSong >...........................
 
 var togglePlayFromPlayerBar = function() {
+    var $songNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+    
       if(currentSoundFile.isPaused()){
-                currentSoundFile.play();
-                $(this).html(pauseButtonTemplate);
-                $($playerBarButton).html(pauseButtonTemplate);
+             $songNumberCell.html(pauseButtonTemplate);
+        $playPauseButton.html(playerBarPauseButton);
+        currentSoundFile.play();
                  
                 
                 
             } else{
-                currentSoundFile.pause();
-                $(this).html(playButtonTemplate);
-                $($playerBarButton).html(playButtonTemplate);
+          $songNumberCell.html(playButtonTemplate);
+        $playPauseButton.html(playerBarPlayButton);
+        currentSoundFile.pause();
                
                 
                     }
@@ -268,6 +277,9 @@ var updatePlayerBarSong = function(){
     $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + " - " + currentAlbum.artist);
     $('.main-controls .play-pause').html(playerBarPauseButton);
  };
+
+
+
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
