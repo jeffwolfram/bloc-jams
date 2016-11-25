@@ -32,7 +32,7 @@ var getSongNumberCell = function(number) {
         '<tr class="album-view-song-item">'
       + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
       + '  <td class="song-item-title">' + songName + '</td>'
-      + '  <td class="song-item-duration">' + songLength + '</td>'
+      + '  <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
       + '</tr>'
       ;
  
@@ -126,6 +126,23 @@ var getSongNumberCell = function(number) {
          $albumSongList.append($newRow);
      }
  }; //end of setCurrentAlbum function...............................
+var setCurrentTimeInPlayerBar = function(currentTime){
+    var timeInMins = filterTimeCode(currentTime);
+    $('.seek-control .current-time').text(timeInMins);
+};
+
+var setTotalTimeInPlayerBar = function(totalTime) {
+    var timeInMins = filterTimeCode(totalTime)
+    $('.seek-control .total-time').text(timeInMins);
+};
+
+var filterTimeCode = function(timeInSeconds){
+    parseFloat(timeInSeconds);
+    var roundedSeconds = Math.floor(timeInSeconds);
+    var fullMinutes = Math.floor(roundedSeconds / 60);
+    var fullSeconds = (roundedSeconds % 60);
+    return fullMinutes + ":" + fullSeconds;
+    };
 
 //Updates seekbar with current time along with volume with current volume
 var updateSeekBarWhileSongPlays = function() {
@@ -134,6 +151,7 @@ var updateSeekBarWhileSongPlays = function() {
           
           var seekBarFillRatio = this.getTime() / this.getDuration();
           var $seekBar = $('.seek-control .seek-bar');
+          setCurrentTimeInPlayerBar(this.getTime());
           updateSeekPercentage($seekBar, seekBarFillRatio);
       });
   }  
@@ -299,7 +317,8 @@ var $playPauseButton = $('.main-controls .play-pause');
 var $currentlyPlayingCell =
     getSongNumberCell(currentlyPlayingSongNumber);
 var $playerBarButton = $('.main-controls .play-pause');
-     
+var currentTime = null;
+var totalTime = null;
 $(document).ready(function() {
      setCurrentAlbum(albumPicasso);
      setupSeekBars();
